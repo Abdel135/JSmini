@@ -2,8 +2,8 @@ let _ =
   try
   let input_stream = 
     if (Array.length Sys.argv) = 1 
-    then stdin else open_in Sys.argv.(1) in 
-    
+    then stdin else open_in Sys.argv.(1)  in
+
   let lexbuf = Lexing.from_channel input_stream in 
     while true do 
       let _ = Parseur.main Lexeur.token lexbuf in 
