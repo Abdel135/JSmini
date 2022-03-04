@@ -1,2 +1,3 @@
 # JSmini
-## A small JS compiler 
+## A small JS compiler using Ocaml
+
