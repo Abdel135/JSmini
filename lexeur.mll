@@ -11,6 +11,7 @@ rule token = parse
             | '+' { PLUS }
             | '-' { MOINS }
             | '*' { FOIS }
+            | '%' { MODULO }
             | '(' { GPAREN }
             | ')' { DPAREN }
             | eof { raise Eof }
