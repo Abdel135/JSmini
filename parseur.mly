@@ -5,6 +5,8 @@
 %left PLUS MOINS
 %left FOIS 
 
+%nonassoc UMOINS
+
 %start main
 %%
 main:
