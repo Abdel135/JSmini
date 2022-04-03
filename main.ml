@@ -7,7 +7,7 @@ let _ =
   let lexbuf = Lexing.from_channel input_stream in 
     while true do 
       let _ = Parseur.main Lexeur.token lexbuf in 
-      Printf.printf("espression detected\n")
+      Printf.printf(" espression detected\n"); flush stdout
     done
   with
   | Lexeur.Eof -> exit 0 (*impossible*)
