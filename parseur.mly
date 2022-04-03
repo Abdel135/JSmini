@@ -1,9 +1,12 @@
-%token NOMBRE BOOLEAN PLUS MOINS FOIS MODULO NOT EQUALS NOTEQL LOSTNB GRSTNB LOEQNB GREQNB GPAREN DPAREN PT_VIRG
+%token NOMBRE BOOLEAN PLUS MOINS FOIS MODULO NOT OR EQUALS NOTEQL LOSTNB GRSTNB LOEQNB GREQNB GPAREN DPAREN PT_VIRG
+
+%left OR EQUALS NOTEQL LOSTNB GRSTNB LOEQNB GREQNB
 %left PLUS MOINS
-%nonassoc NOT 
-%left EQUALS NOTEQL LOSTNB LOEQNB GRSTNB GREQNB
-%left FOIS MODULO
-%nonassoc UMOINS
+%left FOIS 
+%left MODULO
+
+
+%nonassoc UMOINS NOT 
 %type <unit> main expression
 %start main
 %%
@@ -13,7 +16,8 @@ expression PT_VIRG {}
 expression:
   NOMBRE {}
   | BOOLEAN {}
-  | NOT BOOLEAN {}
+  | NOT expression {}
+  | expression OR expression {}
   | expression PLUS expression {}
   | expression MOINS expression {}
   | expression FOIS expression {}
