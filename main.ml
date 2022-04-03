@@ -1,8 +1,13 @@
 let _ =
   try
-  let lexbuf = Lexing.from_channel stdin in (*lexeur lancé sur stdin*)
-    while true do (*on ne s'arrête pas*)
-      Parseur.main Lexeur.token lexbuf (*parseur une ligne*)
+  let input_stream = 
+    if (Array.length Sys.argv) = 1 
+    then stdin else open_in Sys.argv.(1)  in
+
+  let lexbuf = Lexing.from_channel input_stream in 
+    while true do 
+      let _ = Parseur.main Lexeur.token lexbuf in 
+      Printf.printf(" espression detected\n"); flush stdout
     done
   with
   | Lexeur.Eof -> exit 0 (*impossible*)
