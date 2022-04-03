@@ -1,18 +1,24 @@
 %token <int> NOMBRE
-%token NOMBRE PLUS MOINS UMOINS FOIS GPAREN DPAREN EOL
+%token NOMBRE PLUS MOINS MODULO FOIS GPAREN DPAREN PT_VIRG
 
-%type <int> main expression 
+%left PLUS MOINS
+%left FOIS
+%left MODULO
 
+%nonassoc UMOINS
+%type <int> main expression
 
 %start main
 %%
 main:
-expression EOL { $1 };
+expression PT_VIRG { $1 }
+;
 expression:
-  expression PLUS expression { $1+$3 }
-  | expression MOINS expression { $1-$3 }
-  | expression FOIS expression { $1*$3 }
-  | GPAREN expression DPAREN { $2 }
-  | MOINS expression %prec UMOINS { -$2 }
-  | NOMBRE { $1 }
-  ;
+expression PLUS expression { $1+$3 }
+| expression MOINS expression { $1-$3 }
+| expression FOIS expression { $1*$3 }
+| expression MODULO expression {$1 mod $3}
+| GPAREN expression DPAREN { $2 }
+| MOINS expression %prec UMOINS { -$2 }
+| NOMBRE { $1 }
+;

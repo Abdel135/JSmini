@@ -1,9 +1,13 @@
 let _ =
   try
-  let lexbuf = Lexing.from_channel stdin in (*lexeur lancé sur stdin*)
-    while true do (*on ne s'arrête pas*)
+  let input_stream = 
+    if (Array.length Sys.argv) = 1 
+    then stdin else open_in Sys.argv.(1)  in
+
+  let lexbuf = Lexing.from_channel input_stream in 
+    while true do 
       Parseur.main Lexeur.token lexbuf (*parseur une ligne*)
-        |> Printf.printf "%i\n%!";
+      |> Printf.printf "%i\n%!";
     done
   with
   | Lexeur.Eof -> exit 0 (*impossible*)
