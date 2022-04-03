@@ -2,7 +2,8 @@
 %token NOMBRE PLUS MOINS UMOINS FOIS GPAREN DPAREN EOL
 
 %type <int> main expression 
-
+%left PLUS MOINS
+%left FOIS 
 
 %start main
 %%
