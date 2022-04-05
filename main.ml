@@ -1,4 +1,4 @@
-let _ =
+let _ = 
   try
   let input_stream = 
     if (Array.length Sys.argv) = 1 

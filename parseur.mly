@@ -22,5 +22,4 @@ expression EOL { $1 };
     | expression FOIS expression { Mult ($1,$3) }
     | GPAREN expression DPAREN { $2 }
     | MOINS expression %prec UMOINS { Neg $2 }
-    | NOMBRE { Num $1 }
-    ;
+    | NOMBRE { Num $1 };
