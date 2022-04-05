@@ -7,7 +7,7 @@ let _ =
   let lexbuf = Lexing.from_channel input_stream in 
     while true do 
       Parseur.main Lexeur.token lexbuf (*parseur une ligne*)
-      |> Printf.printf "%i\n%!";
+      |> Format.printf "%a\n%!" AST.print_AST ;
     done
   with
   | Lexeur.Eof -> exit 0 (*impossible*)
