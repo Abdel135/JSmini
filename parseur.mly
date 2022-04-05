@@ -3,7 +3,7 @@ open AST
 %}
 
 %token <int> NOMBRE
-%token NOMBRE PLUS MOINS UMOINS FOIS GPAREN DPAREN EOL
+%token NOMBRE PLUS MOINS UMOINS FOIS GPAREN DPAREN PT_VIRG
 
 %type <AST.expression_a> main expression
 
@@ -15,7 +15,7 @@ open AST
 %start main
 %%
 main:
-expression EOL { $1 };
+expression PT_VIRG { $1 };
   expression:
     expression PLUS expression { Plus ($1,$3) }
     | expression MOINS expression { Moins($1,$3) }
