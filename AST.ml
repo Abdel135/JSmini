@@ -20,7 +20,7 @@ and print_AST form = let open Format in function
   | Num    n    -> fprintf form "@[<2>%s@ %i@]" "Num" n
 ;; 
 
-let rec code (e : expression_a)  = 
+let rec code (e : expression_a)    = 
 	match e with 
 	| Num  n    -> Printf.printf "CsteNb %i\n" n 
 	| Plus(l,r) -> (code l); (code r); Printf.printf "AddiNb\n"
