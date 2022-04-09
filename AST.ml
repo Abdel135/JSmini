@@ -25,8 +25,8 @@ let rec code (e : expression_a)    =
 	| Num  n    -> Printf.printf "CsteNb %i\n" n 
 	| Plus(l,r) -> (code l); (code r); Printf.printf "AddiNb\n"
 	| Moins(l,r)-> (code l); (code r); Printf.printf "SubiNb\n"
-  	| Mult(l,r) -> (code l); (code r); Printf.printf "MultNb\n"
-  	| Neg exp   -> (code exp); Printf.printf "NegaNb\n";
+  | Mult(l,r) -> (code l); (code r); Printf.printf "MultNb\n"
+  | Neg exp   -> (code exp); Printf.printf "NegaNb\n";
 ;;
 
 

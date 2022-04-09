@@ -12,7 +12,7 @@ let _ =
     Unix.dup2 (Unix.descr_of_out_channel newstdout) Unix.stdout;
     while true do 
       Parseur.main Lexeur.token lexbuf (*parseur une ligne*)
-      |>  AST.code  ;Printf.printf "Halt"; flush stdout;  (**Format.printf "%a\n%!" *)
+      |>  AST.code  ;Printf.printf "Halt\n"; flush stdout;  (**Format.printf "%a\n%!" *)
     done
   with
   | Lexeur.Eof -> exit 0 (*impossible*)
