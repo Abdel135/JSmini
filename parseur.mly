@@ -24,4 +24,4 @@ expression PT_VIRG { $1 };
     | expression MOINS expression { Moins($1,$3) }
     | expression FOIS expression { Mult ($1,$3) }
     | expression MODULO expression { Mod ($1,$3) }
-    | GPAREN expression DPAREN { $2 }
+    | GPAREN expression DPAREN {$2}
