@@ -7,7 +7,7 @@ let _ =
   let newstdout = 
     if input_stream = stdin then stdout else open_out (Sys.argv.(1)^".jsm") in 
 
-  let lexbuf = Lexing.from_channel input_stream in 
+  let lexbuf = Lexing.from_channel input_stream in  
     (*Unix.dup2 (Unix.descr_of_out_channel newstdout) Unix.stdout;*)
     Unix.dup2 (Unix.descr_of_out_channel newstdout) Unix.stdout;
     while true do 

@@ -8,7 +8,7 @@ open AST
 %type <AST.expression_a> main expression
 
 %left PLUS MOINS
-%left FOIS 
+%left FOIS
 %left MODULO
 
 %nonassoc UMOINS
