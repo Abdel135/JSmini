@@ -14,4 +14,3 @@ let _ =
   | Lexeur.TokenInconu (*erreur de lexing*)
   | Parsing.Parse_error -> (*erreur de parsing*)
   Printf.printf ("Ceci n'est pas une expression arithmetique\n")
-
