@@ -1,9 +1,7 @@
-{
-  
+{ 
 open Parseur
 exception Eof
 exception TokenInconu
-
 }
 
 rule token = parse
