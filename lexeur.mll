@@ -8,6 +8,8 @@ rule token = parse
             [' ' '\t' '\n'] { token lexbuf }
             | [';'] { PT_VIRG }
             | ( ['0'-'9']*['.'] ) ? ['0'-'9']+ { NOMBRE }
+            | ( ['0'-'9']+ (['.']['0'-'9']*)? ) "e"['-']?['0'-'9']+ {NOMBRE}
+            | "nan" {NOMBRE}
             | "true" | "false" { BOOLEAN }
             | '+'   { PLUS }
             | '-'   { MOINS }
