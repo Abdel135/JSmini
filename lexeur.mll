@@ -7,6 +7,8 @@ exception TokenInconu
 
 rule token = parse
             [' ' '\t' '\n'] { token lexbuf }
+            | "//" [^ '\n']* '\n'{token lexbuf }
+            | "/*" ([^ '*'] | '*'+ [^ '*''/'])* "*/" {token lexbuf }
             | [';'] { PT_VIRG }
             | (['0'-'9']*['.']) ? ['0'-'9']+ as lexem { NOMBRE(float_of_string lexem) }
             | '+'   { PLUS }
