@@ -1,4 +1,4 @@
-%token NOMBRE BOOLEAN PLUS MOINS FOIS MODULO NOT OR EQUALS NOTEQL LOSTNB GRSTNB LOEQNB GREQNB GPAREN DPAREN PT_VIRG 
+%token NOMBRE BOOLEAN PLUS MOINS FOIS MODULO NOT OR EQUALS NOTEQL LOSTNB GRSTNB LOEQNB GREQNB GPAREN DPAREN PT_VIRG COLON QMARK
 
 %left OR EQUALS NOTEQL LOSTNB GRSTNB LOEQNB GREQNB
 %left PLUS MOINS
@@ -6,7 +6,7 @@
 %left MODULO
 
 
-%nonassoc UMOINS NOT COMMENT
+%nonassoc UMOINS NOT COLON QMARK
 %type <unit> main expression
 %start main
 %%
@@ -28,6 +28,7 @@ expression:
   | expression LOEQNB expression {}
   | expression GRSTNB expression {}
   | expression GREQNB expression {}
+  | expression QMARK expression COLON expression {}
   | GPAREN expression DPAREN {}
   | MOINS expression %prec UMOINS {}
   ;

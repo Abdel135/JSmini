@@ -27,5 +27,7 @@ rule token = parse
             | '>'   { GRSTNB }
             | "<="  { LOEQNB }
             | ">="  { GREQNB }  
+            | ':'   { COLON }
+            | '?'   { QMARK }
             | eof   { raise Eof }
             | _     { raise TokenInconu }
