@@ -28,20 +28,28 @@ and print_AST form = let open Format in function
   | Mult  (g,d) -> print_binaire form "Mult" g d
   | Div   (g,d) -> print_binaire form "Div" g d
   | Mod   (g,d) -> print_binaire form "Mod" g d
-
-  | Equals  (g,d) -> print_binaire form "Equals" g d
-  | Noteql  (g,d) -> print_binaire form "Noteql" g d 
-  | Lostnb  (g,d) -> print_binaire form "Lostnb" g d 
-  | Grstnb  (g,d) -> print_binaire form "Grstnb" g d
-  | Loeqnb  (g,d) -> print_binaire form "Loeqnb" g d
-  | Greqnb  (g,d) -> print_binaire form "Greqnb" g d
+  | Equals  (g,d)-> print_binaire form "Equals" g d
+  | Noteql  (g,d)-> print_binaire form "Noteql" g d 
+  | Lostnb  (g,d)-> print_binaire form "Lostnb" g d 
+  | Grstnb  (g,d)-> print_binaire form "Grstnb" g d
+  | Loeqnb  (g,d)-> print_binaire form "Loeqnb" g d
+  | Greqnb  (g,d)-> print_binaire form "Greqnb" g d
+  | Ternary (i,t,e) -> print_binaire form "IfThenElse" t e
   | Not    e    -> fprintf form "@[<2>%s@ %a@]" "Not" print_AST e
-  
   | Neg    e    -> fprintf form "@[<2>%s@ %a@]" "Neg" print_AST e 
   | Num    n    -> fprintf form "@[<2>%s@ %f@]" "Num" n
+
 ;; 
 
-let rec code (e : expression_a)    = 
+
+let rec print_list l  = 
+    match l with 
+    | [] -> Printf.printf ""
+    | h::t -> Printf.printf h; print_list t;;
+
+
+
+let  code (e : expression_a)    = 
 	match e with 
 	| Plus(l,r) -> (code l); (code r); Printf.printf "AddiNb\n"
 	| Moins(l,r)-> (code l); (code r); Printf.printf "SubiNb\n"
@@ -56,12 +64,11 @@ let rec code (e : expression_a)    =
   | Loeqnb  (l,r) ->  (code l); (code r);Printf.printf "LoEqNb\n"
   | Greqnb  (l,r) ->  (code l); (code r);Printf.printf "GrEqNb\n"
   | Not     e     ->  (code e); Printf.printf "Not\n"
-
+  | Ternary (i,t,e) -> Printf.printf "ternary\n"
   | Neg exp   -> (code exp); Printf.printf "NegaNb\n";
   | Num  n    -> Printf.printf "CsteNb %f\n" n 
 
 ;;
-
 
 
 
