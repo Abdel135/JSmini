@@ -13,7 +13,7 @@ open AST
 %left NOT
 
 
-%nonassoc UMOINS 
+%nonassoc UMOINS COLON QMARK
 
 %start main
 %%
@@ -32,6 +32,7 @@ expression PT_VIRG { $1 };
     | expression GRSTNB expression {Grstnb ($1,$3)}
     | expression LOEQNB expression {Loeqnb ($1,$3)}
     | expression GREQNB expression {Greqnb ($1,$3)}
+    | expression QMARK expression COLON expression {Ternary($1,$3,$5)}
     | NOT expression {Not $2}
     
     | GPAREN expression DPAREN { $2 }
