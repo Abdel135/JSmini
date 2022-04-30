@@ -1,20 +1,40 @@
-%token NOMBRE BOOLEAN PLUS MOINS FOIS MODULO NOT OR EQUALS NOTEQL LOSTNB GRSTNB LOEQNB GREQNB GPAREN DPAREN PT_VIRG COLON QMARK
+%token NOMBRE BOOLEAN PLUS MOINS FOIS MODULO NOT OR EQUALS NOTEQL LOSTNB GRSTNB LOEQNB GREQNB GPAREN DPAREN PT_VIRG COLON QMARK IDENT ASSG 
+%token IDENT ASSG 
 
+
+%left ASSG
 %left OR EQUALS NOTEQL LOSTNB GRSTNB LOEQNB GREQNB
 %left PLUS MOINS
 %left FOIS 
 %left MODULO
 
 
-%nonassoc UMOINS NOT COLON QMARK
-%type <unit> main expression
-%start main
+%nonassoc UMOINS NOT COLON QMARK 
+
+
+%type <unit> main programme 
+
+
+
+%start main programme
 %%
+
 main:
-expression PT_VIRG {}
-;
+programme PT_VIRG {};
+
+programme : 
+  command {}
+  | command  programme  {};
+
+command:
+  expression PT_VIRG{}
+  | IDENT ASSG expression {};
+
+
+
 expression:
   NOMBRE {}
+  | IDENT {}
   | BOOLEAN {}
   | NOT expression {}
   | expression OR expression {}

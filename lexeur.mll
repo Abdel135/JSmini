@@ -12,7 +12,7 @@ rule token = parse
             | ( ['0'-'9']*['.'] ) ? ['0'-'9']+ { NOMBRE }
             | ( ['0'-'9']+ (['.']['0'-'9']*)? ) "e"['-']?['0'-'9']+ {NOMBRE}
             | "nan" {NOMBRE}
-            | "true" | "false" { BOOLEAN }
+            | "True" | "False" { BOOLEAN }
             | '+'   { PLUS }
             | '-'   { MOINS }
             | '*'   { FOIS }
@@ -29,5 +29,7 @@ rule token = parse
             | ">="  { GREQNB }  
             | ':'   { COLON }
             | '?'   { QMARK }
+            | ['a'-'z']['a'-'z' '_' '0'-'9']* {IDENT}
+            | "="   { ASSG}
             | eof   { raise Eof }
             | _     { raise TokenInconu }
