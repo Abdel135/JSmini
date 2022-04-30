@@ -5,14 +5,14 @@ type expression_a =
   | Div   of expression_a * expression_a
   | Mod   of expression_a * expression_a
 
-  | Equals of expression_a * expression_a
+  | Equals  of expression_a * expression_a
   | Noteql  of expression_a * expression_a
   | Lostnb  of expression_a * expression_a
   | Grstnb  of expression_a * expression_a
   | Loeqnb  of expression_a * expression_a
   | Greqnb  of expression_a * expression_a
   | Not     of expression_a
-
+  | Ternary of expression_a * expression_a * expression_a
   | Neg     of expression_a
   | Num     of float
 ;;
@@ -36,7 +36,7 @@ and print_AST form = let open Format in function
   | Loeqnb  (g,d) -> print_binaire form "Loeqnb" g d
   | Greqnb  (g,d) -> print_binaire form "Greqnb" g d
   | Not    e    -> fprintf form "@[<2>%s@ %a@]" "Not" print_AST e
-
+  
   | Neg    e    -> fprintf form "@[<2>%s@ %a@]" "Neg" print_AST e 
   | Num    n    -> fprintf form "@[<2>%s@ %f@]" "Num" n
 ;; 
