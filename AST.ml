@@ -42,6 +42,30 @@ and print_AST form = let open Format in function
 ;; 
 
 
+
+let rec size (e : expression_a) =
+	match e with 
+  | Plus  (g,d)   -> 1+ size(g)+size(d)
+  | Moins (g,d)   -> 1+ size(g)+size(d)
+  | Mult  (g,d)   -> 1+ size(g)+size(d)
+  | Div   (g,d)   -> 1+ size(g)+size(d)
+  | Mod   (g,d)   -> 1+ size(g)+size(d)
+  | Equals  (g,d) -> 1+ size(g)+size(d)
+  | Noteql  (g,d) -> 1+ size(g)+size(d)
+  | Lostnb  (g,d) -> 1+ size(g)+size(d) 
+  | Grstnb  (g,d) -> 1+ size(g)+size(d)
+  | Loeqnb  (g,d) -> 1+ size(g)+size(d)
+  | Greqnb  (g,d) -> 1+ size(g)+size(d)
+  | Ternary (c,t,e) -> size(c) +1 + size(t) + size(e)
+  | Not    e    -> 1 + size(e)
+  | Neg    e    -> 1 + size(e)
+  | Num    n    -> 1
+
+;; 
+
+
+
+
 let rec print_list l  = 
     match l with 
     | [] -> Printf.printf ""
@@ -49,7 +73,7 @@ let rec print_list l  =
 
 
 
-let  code (e : expression_a)    = 
+let  rec code (e : expression_a)  = 
 	match e with 
 	| Plus(l,r) -> (code l); (code r); Printf.printf "AddiNb\n"
 	| Moins(l,r)-> (code l); (code r); Printf.printf "SubiNb\n"
@@ -63,8 +87,9 @@ let  code (e : expression_a)    =
   | Grstnb  (l,r) ->  (code l); (code r);Printf.printf "GrStNb\n"
   | Loeqnb  (l,r) ->  (code l); (code r);Printf.printf "LoEqNb\n"
   | Greqnb  (l,r) ->  (code l); (code r);Printf.printf "GrEqNb\n"
+
   | Not     e     ->  (code e); Printf.printf "Not\n"
-  | Ternary (i,t,e) -> Printf.printf "ternary\n"
+  | Ternary (c,t,e) -> (code c);  let x = size(t)+1 in Printf.printf "CondJump %d\n" x; code t ; let y = size(e)+1 in Printf.printf "Jump %d\n" y; code e
   | Neg exp   -> (code exp); Printf.printf "NegaNb\n";
   | Num  n    -> Printf.printf "CsteNb %f\n" n 
 
