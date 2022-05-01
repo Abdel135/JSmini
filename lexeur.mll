@@ -29,5 +29,9 @@ rule token = parse
             | ">="  { GREQNB }  
             | ':'   { COLON }
             | '?'   { QMARK }
+
+            | ['a'-'z']['a'-'z' '_' '0'-'9']* as lexem { IDENT(lexem) }
+            | "="   { ASSG}
+            
             | eof   { raise Eof }
             | _     { raise TokenInconu }
