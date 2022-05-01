@@ -11,6 +11,8 @@ type expression_a =
   | Grstnb  of expression_a * expression_a
   | Loeqnb  of expression_a * expression_a
   | Greqnb  of expression_a * expression_a
+  | And     of expression_a * expression_a 
+  | Or      of expression_a * expression_a
   | Not     of expression_a
   | Ternary of expression_a * expression_a * expression_a
   | Neg     of expression_a
@@ -33,7 +35,9 @@ and print_AST form = let open Format in function
   | Lostnb  (g,d)-> print_binaire form "Lostnb" g d 
   | Grstnb  (g,d)-> print_binaire form "Grstnb" g d
   | Loeqnb  (g,d)-> print_binaire form "Loeqnb" g d
-  | Greqnb  (g,d)-> print_binaire form "Greqnb" g d
+  | Greqnb  (g,d)-> print_binaire form "And" g d
+  | And  (g,d)-> print_binaire form "Or" g d
+  | Or  (g,d)-> print_binaire form "Greqnb" g d
   | Ternary (i,t,e) -> print_binaire form "IfThenElse" t e
   | Not    e    -> fprintf form "@[<2>%s@ %a@]" "Not" print_AST e
   | Neg    e    -> fprintf form "@[<2>%s@ %a@]" "Neg" print_AST e 
@@ -56,6 +60,8 @@ let rec size (e : expression_a) =
   | Grstnb  (g,d) -> 1+ size(g)+size(d)
   | Loeqnb  (g,d) -> 1+ size(g)+size(d)
   | Greqnb  (g,d) -> 1+ size(g)+size(d)
+  | And     (g,d) -> 1+ size(g)+size(d)
+  | Or      (g,d) -> 1+ size(g)+size(d)
   | Ternary (c,t,e) -> size(c) +1 + size(t) + size(e)
   | Not    e    -> 1 + size(e)
   | Neg    e    -> 1 + size(e)
@@ -87,6 +93,8 @@ let  rec code (e : expression_a)  =
   | Grstnb  (l,r) ->  (code l); (code r);Printf.printf "GrStNb\n"
   | Loeqnb  (l,r) ->  (code l); (code r);Printf.printf "LoEqNb\n"
   | Greqnb  (l,r) ->  (code l); (code r);Printf.printf "GrEqNb\n"
+  | And  (l,r) ->  (code l); (code r);Printf.printf "And\n"
+  | Or (l,r) ->  (code l); (code r);Printf.printf "Or\n"
 
   | Not     e     ->  (code e); Printf.printf "Not\n"
   | Ternary (c,t,e) -> (code c);  let x = size(t)+1 in Printf.printf "CondJump %d\n" x; code t ; let y = size(e)+1 in Printf.printf "Jump %d\n" y; code e

@@ -19,7 +19,8 @@ rule token = parse
             | '('   { GPAREN }
             | ')'   { DPAREN }
             | '!'   { NOT }
-            | "or"  { OR }
+            | "||"  { OR }
+            | "&&"  { AND }
             | "=="  { EQUALS }
             | "!="  { NOTEQL }
             | '<'   { LOSTNB }
