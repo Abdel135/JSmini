@@ -20,6 +20,9 @@ type expression_a =
 ;;
 
 
+
+
+
 (* Fonctions d'affichage *)
 
 let rec print_binaire form s g d = Format.fprintf form "@[<2>%s%s@ %a%s@ %a%s@]" s "(" print_AST g " ," print_AST d " )" 
@@ -108,25 +111,17 @@ let  rec code (e : expression_a)  =
 
 
 
-
-
-
-(*let rec print_exp (e : expression_a )  = match e with 
-| Plus  (g,d) -> Printf.printf "Plus ( "; print_exp g; print_exp d; Printf.printf " )"
-| Moins (g,d) -> Printf.printf "Moins ( "; print_exp g; print_exp d; Printf.printf " )" 
-| Mult  (g,d) -> Printf.printf "Mult ( "; print_exp g; print_exp d; Printf.printf " )"
-| Div   (g,d) -> Printf.printf "Div ( "; print_exp g; print_exp d; Printf.printf " )"
-| Mod   (g,d) -> Printf.printf "Mod ( "; print_exp g; print_exp d; Printf.printf " )"
-| Equals  (g,d)-> Printf.printf "Equals ( "; print_exp g; print_exp d; Printf.printf " )"
-| Noteql  (g,d)-> Printf.printf "Noteql ( "; print_exp g; print_exp d; Printf.printf " )" 
-| Lostnb  (g,d)-> Printf.printf "Lostnb ( "; print_exp g; print_exp d; Printf.printf " )" 
-| Grstnb  (g,d)-> Printf.printf "Grstnb ( "; print_exp g; print_exp d; Printf.printf " )"
-| Loeqnb  (g,d)-> Printf.printf "Loeqnb ( "; print_exp g; print_exp d; Printf.printf " )"
-| Greqnb  (g,d)-> Printf.printf "Greqnb ( "; print_exp g; print_exp d; Printf.printf " )"
-| Ternary (i,t,e) -> Printf.printf "IfThenElse ( " ;print_exp t; print_exp e ; Printf.printf " )"
-| Not    e    -> Printf.printf "Not" ; print_exp e
-| Neg    e    -> Printf.printf "Neg" ; print_exp e  
-| Num    n    -> Printf.printf "Num %" n 
-| Id     x    -> Printf.printf "Var %s" x 
+let code_command (c : command_a) = 
+  match c with
+  | Exp e -> code e ; 
+  | Ass (var,exp) -> (code exp) ; match var with 
+                                  | Id x -> Print.printf "SetVar %s" x | _ -> Print.printf ""
 ;;
-*)
+
+let rec code_prog ( p : programme_a) = 
+  match p with 
+  | Com c -> (code_command c)
+  | Seq(c,p) -> (code_command c) ; (code_prog p )
+
+  ;;
+
