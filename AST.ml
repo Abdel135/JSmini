@@ -21,6 +21,17 @@ type expression_a =
 
 
 
+type command_a =
+  | Exp  of expression_a 
+  | Assg of expression_a * expression_a
+;;
+
+type programme_a = 
+  | Com of command_a 
+  | Seq of command_a * programme_a 
+
+;;
+
 
 
 (* Fonctions d'affichage *)

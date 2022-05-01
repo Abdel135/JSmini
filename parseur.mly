@@ -4,23 +4,36 @@ open AST
 
 %token <float> NOMBRE
 %token NOMBRE BOOLEAN PLUS MOINS FOIS DIV MOD NOT OR AND EQUALS NOTEQL LOSTNB GRSTNB LOEQNB GREQNB GPAREN DPAREN PT_VIRG COLON QMARK
-%type <AST.expression_a> main expression
+
+%type <AST.programme_a> main programme
 
 %left  OR AND EQUALS NOTEQL LOSTNB GRSTNB LOEQNB GREQNB
 %left PLUS MOINS
 %left FOIS DIV 
 %left MOD
 %left NOT
-
- 
-
 %nonassoc UMOINS COLON QMARK
+
+
 
 %start main
 %%
+
+
 main:
-expression PT_VIRG { $1 };
-  expression:
+programme PT_VIRG {$1};
+
+programme : 
+   command PT_VIRG {Com ($1)}
+   |command  programme  { Seq($1,$2) };
+
+command:
+  expression PT_VIRG{ Exp($1)}
+  | expression ASSG expression {Assg($1,$3)};
+
+
+
+expression:
     expression PLUS expression { Plus($1,$3) }
     | expression MOINS expression { Moins($1,$3) }
     | expression FOIS expression { Mult ($1,$3) }
