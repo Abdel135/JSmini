@@ -32,6 +32,11 @@ rule token = parse
 
             | ['a'-'z']['a'-'z' '_' '0'-'9']* as lexem { IDENT(lexem) }
             | "="   { ASSG}
-            
+
+            | "If" { IF }
+            | "Else" { ELSE }
+
+
+
             | eof   { raise Eof }
             | _     { raise TokenInconu }

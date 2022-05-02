@@ -17,6 +17,7 @@ type expression_a =
   | Ternary of expression_a * expression_a * expression_a
   | Neg     of expression_a
   | Num     of float
+  | Id      of string 
 ;;
 
 
@@ -24,6 +25,7 @@ type expression_a =
 type command_a =
   | Exp  of expression_a 
   | Assg of expression_a * expression_a
+  | If   of expression_a * command_a * command_a
 ;;
 
 type programme_a = 
@@ -56,7 +58,7 @@ and print_AST form = let open Format in function
   | Not    e    -> fprintf form "@[<2>%s@ %a@]" "Not" print_AST e
   | Neg    e    -> fprintf form "@[<2>%s@ %a@]" "Neg" print_AST e 
   | Num    n    -> fprintf form "@[<2>%s@ %f@]" "Num" n
-
+  | Id     x    -> fprintf form "@[<2>%s@ %s@]" "Num" x
 ;; 
 
 
@@ -80,16 +82,16 @@ let rec size (e : expression_a) =
   | Not    e    -> 1 + size(e)
   | Neg    e    -> 1 + size(e)
   | Num    n    -> 1
-
+  | Id     x    -> 1
 ;; 
 
 
 
-
-let rec print_list l  = 
-    match l with 
-    | [] -> Printf.printf ""
-    | h::t -> Printf.printf h; print_list t;;
+let rec size_command (c : command_a) = match c with 
+  | Exp e -> size e
+  | Assg(x,e) -> 1+(size e) (**1 for setVar x*)
+  | If(exp,t,e) -> 1+(size exp) + size_command (t) + size_command(e)
+  ;;
 
 
 
@@ -114,20 +116,31 @@ let  rec code (e : expression_a)  =
   | Ternary (c,t,e) -> (code c);  let x = size(t)+1 in Printf.printf "CondJump %d\n" x; code t ; let y = size(e)+1 in Printf.printf "Jump %d\n" y; code e
   | Neg exp   -> (code exp); Printf.printf "NegaNb\n";
   | Num  n    -> Printf.printf "CsteNb %f\n" n 
-
+  | Id   x    -> Printf.printf "GetVar %s\n" x 
 ;;
 
 
 
+(**type command_a =
+  | Exp  of expression_a 
+  | Assg of expression_a * expression_a
+  | If   of expression_a * command_a * command_a
+;;*)
 
 
-
-let code_command (c : command_a) = 
+let rec code_command (c : command_a) = 
   match c with
   | Exp e -> code e ; 
-  | Ass (var,exp) -> (code exp) ; match var with 
-                                  | Id x -> Print.printf "SetVar %s" x | _ -> Print.printf ""
+  | Assg (var,exp) ->( (code exp) ; match var with 
+                                  | Id x -> Printf.printf "SetVar %s\n" x | _ -> Printf.printf "[var ?]")
+  | If (exp,c1,c2)   -> (code exp) ; 
+  let x = 1+(size_command c1) in Printf.printf "CondJump %d\n" x;(code_command c1);  
+  let y = 1+(size_command c2) in Printf.printf "Jump %d\n" y; (code_command c2)
 ;;
+
+
+
+
 
 let rec code_prog ( p : programme_a) = 
   match p with 
