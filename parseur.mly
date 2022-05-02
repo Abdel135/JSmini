@@ -11,14 +11,14 @@ open AST
 
 %type <AST.programme_a> main programme
 
-%left IF ELSE DO WHILE
+%left IF ELSE DO WHILE QMARK COLON
 %left ASSG
 %left  OR AND EQUALS NOTEQL LOSTNB GRSTNB LOEQNB GREQNB
 %left PLUS MOINS
 %left FOIS DIV 
 %left MOD
 %left NOT
-%nonassoc UMOINS QMARK COLON IDENT
+%nonassoc UMOINS  IDENT
 
 
 %start main

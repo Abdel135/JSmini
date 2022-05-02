@@ -139,10 +139,10 @@ let rec code_command (c : command_a) =
                                   | Id x -> Printf.printf "SetVar %s\n" x | _ -> Printf.printf "[var ?]")
   | If (exp,c1,c2)   ->( (code exp) ; 
   let x = 1+(size_command c1) in Printf.printf "ConJmp %d\n" x;(code_command c1);  
-  let y = 1+(size_command c2) in Printf.printf "Jump %d\n" y; (code_command c2)  )
+  let y = (size_command c2) in Printf.printf "Jump %d\n" y; (code_command c2)  )
   
   | Do_while(c,e) ->( (code_command c) ;(code e); let x = (size_command c) in 
-                                        let y = (size e) in Printf.printf "Jump %d\n" (-1-(x+y))  )
+                                        let y = (size e) in Printf.printf "Jump %d\n" (-(x+y+1))  )
 
   | While(e,c) ->( (code e) ;let x = 1+(size_command c ) in Printf.printf "ConJmp %d\n" x ; (code_command c) ; 
     let y = (size e) in Printf.printf "Jump %d\n" (-(x+y+1))  )
