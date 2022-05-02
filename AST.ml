@@ -27,6 +27,7 @@ type command_a =
   | Assg of expression_a * expression_a
   | If   of expression_a * command_a * command_a
   | Do_while of command_a * expression_a
+  | While of expression_a * command_a
 ;;
 
 type programme_a = 
@@ -93,6 +94,7 @@ let rec size_command (c : command_a) = match c with
   | Assg(x,e) -> 1+(size e) (**1 for setVar x*)
   | If(exp,t,e) -> 1+(size exp) + size_command (t) + size_command(e)
   | Do_while(c,e) -> 1+(size_command c) + (size e)
+  | While (e,c) -> 1+(size_command c) + (size e)
   ;;
 
 
@@ -115,7 +117,7 @@ let  rec code (e : expression_a)  =
   | Or (l,r) ->  (code l); (code r);Printf.printf "Or\n"
 
   | Not     e     ->  (code e); Printf.printf "Not\n"
-  | Ternary (c,t,e) -> (code c);  let x = size(t)+1 in Printf.printf "CondJump %d\n" x; code t ; let y = size(e)+1 in Printf.printf "Jump %d\n" y; code e
+  | Ternary (c,t,e) -> (code c);  let x = size(t)+1 in Printf.printf "ConJmp %d\n" x; code t ; let y = size(e) in Printf.printf "Jump %d\n" y; code e
   | Neg exp   -> (code exp); Printf.printf "NegaNb\n";
   | Num  n    -> Printf.printf "CsteNb %f\n" n 
   | Id   x    -> Printf.printf "GetVar %s\n" x 
@@ -136,11 +138,14 @@ let rec code_command (c : command_a) =
   | Assg (var,exp) ->( (code exp) ; match var with 
                                   | Id x -> Printf.printf "SetVar %s\n" x | _ -> Printf.printf "[var ?]")
   | If (exp,c1,c2)   ->( (code exp) ; 
-  let x = 1+(size_command c1) in Printf.printf "CondJump %d\n" x;(code_command c1);  
+  let x = 1+(size_command c1) in Printf.printf "ConJmp %d\n" x;(code_command c1);  
   let y = 1+(size_command c2) in Printf.printf "Jump %d\n" y; (code_command c2)  )
   
   | Do_while(c,e) ->( (code_command c) ;(code e); let x = (size_command c) in 
                                         let y = (size e) in Printf.printf "Jump %d\n" (-1-(x+y))  )
+
+  | While(e,c) ->( (code e) ;let x = 1+(size_command c ) in Printf.printf "ConJmp %d\n" x ; (code_command c) ; 
+    let y = (size e) in Printf.printf "Jump %d\n" (-(x+y+1))  )
 ;;
 
 

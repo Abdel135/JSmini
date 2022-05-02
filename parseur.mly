@@ -37,6 +37,7 @@ command:
   | expression ASSG expression PT_VIRG {Assg($1,$3)};
   | IF GPAREN expression DPAREN command ELSE command { If($3,$5,$7) };
   | DO command WHILE GPAREN expression DPAREN {Do_while($2,$5);}
+  | WHILE GPAREN expression DPAREN command { While($3,$5)};
 
 
 
