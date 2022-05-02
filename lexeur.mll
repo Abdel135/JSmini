@@ -34,8 +34,9 @@ rule token = parse
             | "="   { ASSG}
 
             | "If" { IF }
-            | "Else" { ELSE }
-
+            | "Else"  { ELSE }
+            | "While" { WHILE }
+            | "Do"    { DO }
 
 
             | eof   { raise Eof }

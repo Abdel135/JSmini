@@ -7,11 +7,11 @@ open AST
 
 %token NOMBRE BOOLEAN PLUS MOINS FOIS DIV MOD NOT OR AND EQUALS NOTEQL LOSTNB GRSTNB LOEQNB GREQNB GPAREN DPAREN PT_VIRG COLON QMARK
 %token IDENT ASSG 
-%token IF ELSE
+%token IF ELSE DO WHILE
 
 %type <AST.programme_a> main programme
 
-%left IF ELSE
+%left IF ELSE DO WHILE
 %left ASSG
 %left  OR AND EQUALS NOTEQL LOSTNB GRSTNB LOEQNB GREQNB
 %left PLUS MOINS
@@ -36,6 +36,7 @@ command:
   expression PT_VIRG  { Exp($1)}
   | expression ASSG expression PT_VIRG {Assg($1,$3)};
   | IF GPAREN expression DPAREN command ELSE command { If($3,$5,$7) };
+  | DO command WHILE GPAREN expression DPAREN {Do_while($2,$5);}
 
 
 

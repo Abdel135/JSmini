@@ -26,6 +26,7 @@ type command_a =
   | Exp  of expression_a 
   | Assg of expression_a * expression_a
   | If   of expression_a * command_a * command_a
+  | Do_while of command_a * expression_a
 ;;
 
 type programme_a = 
@@ -91,6 +92,7 @@ let rec size_command (c : command_a) = match c with
   | Exp e -> size e
   | Assg(x,e) -> 1+(size e) (**1 for setVar x*)
   | If(exp,t,e) -> 1+(size exp) + size_command (t) + size_command(e)
+  | Do_while(c,e) -> 1+(size_command c) + (size e)
   ;;
 
 
@@ -133,9 +135,12 @@ let rec code_command (c : command_a) =
   | Exp e -> code e ; 
   | Assg (var,exp) ->( (code exp) ; match var with 
                                   | Id x -> Printf.printf "SetVar %s\n" x | _ -> Printf.printf "[var ?]")
-  | If (exp,c1,c2)   -> (code exp) ; 
+  | If (exp,c1,c2)   ->( (code exp) ; 
   let x = 1+(size_command c1) in Printf.printf "CondJump %d\n" x;(code_command c1);  
-  let y = 1+(size_command c2) in Printf.printf "Jump %d\n" y; (code_command c2)
+  let y = 1+(size_command c2) in Printf.printf "Jump %d\n" y; (code_command c2)  )
+  
+  | Do_while(c,e) ->( (code_command c) ;(code e); let x = (size_command c) in 
+                                        let y = (size e) in Printf.printf "Jump %d\n" (-1-(x+y))  )
 ;;
 
 
